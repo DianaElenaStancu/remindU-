@@ -2,28 +2,28 @@
   include_once 'header.php';
 ?>
 
-    <div class= "container-sm">
-      <h2>Log in</h2>
-      <div>
+    <div class= "container__form">
+      <h2 class = "heading-secondary">Log in</h2>
+      <div class = "row justify-content-md-center">
         <form action="includes/login.inc.php" method="post">
-          <div class="mb-3">
-            <label for="InputUid" class = "form-label">Username/Email </label>
-            <input type="text" class = "form-control" id = "InputUid" name="uid" placeholder="Username/Email..." aria-describedby="UidHekp">
+          <div  class = "form__group">
+            <label for="InputUid" class = "form__label">Username/Email </label>
+            <input type="text" class = "form__control" id = "InputUid" name="uid" placeholder="Username/Email..." aria-describedby="UidHekp">
           </div>
-          <div class = "mb-3">
-            <label for="InputPwd" class = "form-label">Password</label>
-            <input type="password" class = "form-control" name="pwd" placeholder="Password..." id = "InputPwd">
+          <div class = "form__group">
+            <label for="InputPwd" class = "form__label">Password</label>
+            <input type="password" class = "form__control" name="pwd" placeholder="Password..." id = "InputPwd">
           </div>
-            <button type="submit" class = "btn btn-primary" name="submit">Log In</button>
+            <button type="submit" class = "btn btn-block mybtn btn-primary tx-tfm" name="submit">Log In</button>
         </form>
       </div>
       <?php
         if(isset($_GET["error"])){
           if($_GET["error"] == "emptyinput"){
-            echo '<p>Fill in al fields!</p>';
+            echo '<p class="alert alert-primary" role="alert">Fill in al fields!</p>';
           }
           else if($_GET["error"] == "wronglogin"){
-            echo '<p>Incorrent login information!</p>';
+            echo '<p class="alert alert-primary" role="alert">Incorrect login information!</p>';
           }
         }
        ?>
