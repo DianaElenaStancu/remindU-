@@ -16,6 +16,15 @@
           </div>
             <button type="submit" class = "btn btn-block mybtn btn-primary tx-tfm" name="submit">Log In</button>
         </form>
+
+        <?php
+          if(isset($_GET["newpwd"])){
+            if($_GET["newpwd"] == "passwordupdated"){
+              echo '<p class="alert alert-primary" role="alert">Your password has been reset!</p>';
+            }
+          }
+         ?>
+        <a href = "reset-password.php">Forgot your password?</a>
       </div>
       <?php
         if(isset($_GET["error"])){
