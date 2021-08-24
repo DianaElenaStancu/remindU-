@@ -77,7 +77,7 @@ if (isset($_POST["reset-request-submit"])) {
   //set gmail username
   $mail -> Username = "remindu2021@gmail.com";
   //set gmail password
-  $mail -> Password = "";
+  $mail -> Password = file_get_contents("../.config");
   //set email subject
   $mail -> Subject = "no-reply Reset password";
   //set sender email
