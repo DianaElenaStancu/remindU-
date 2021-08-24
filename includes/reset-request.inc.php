@@ -2,6 +2,8 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+require 'dbh.inc.php';
+
 if (isset($_POST["reset-request-submit"])) {
 
   $selector = bin2hex(random_bytes(8));
@@ -10,8 +12,6 @@ if (isset($_POST["reset-request-submit"])) {
   $url = "http://localhost/remindU/remindU-/create-new-password.php?selector=" . $selector . "&validator=" . bin2hex($token);
 
   $expires = date("U") + 1800;
-
-  require 'dbh.inc.php';
 
   $userEmail = $_POST["email"];
 
