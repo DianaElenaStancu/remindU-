@@ -21,8 +21,8 @@
                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form action="includes/new-subscription.inc.php" method = "post">
             <div class="modal-body">
-               <form action="/action_page.php" method = "post">
                   <div  class = "form__group">
                      <label for="InputSubscription" class = "form__label">Subscription name </label>
                      <input type="text" class = "form__control" id = "InputSubscription" name="subscription" placeholder="Subscription name..." aria-describedby="SubHelp">
@@ -31,20 +31,28 @@
                      <label for="payDay" class = "form__label">When is the pay day:</label>
                      <input type="date" class = "form__control" id="InputPayDay" name="payDay" placeholder = "..." aria-describedby = "DayHelp">
                   </div>
-                  <div  class = "form__group" id="emailFriend">
-                     <label for="emailFriend" class = "form__label">Your friends' email(s):</label>
-                     <input type = "text"  class = "form__control" id = "InputEmail" name="emailFriend" placeholder = "Friend E-mail" aria-describedby = "EmailHelp">
+                  <div>
+                  <div  class = "form__group" id="FriendName">
+                     <label for="FriendName" class = "form__label">Your friend(s)' data</label>
+                     <input type = "text"  class = "form__control" id = "InputFriendName" name="FriendName[]" placeholder = "Friend Name" aria-describedby = "FriendNameHelp">
                   </div>
+                  <div  class = "form__group" id="FriendEmail">
+                     <label for="emailFriend" class = "form__label">Your friends' email(s):</label>
+                     <input type = "text"  class = "form__control" id = "InputEmail" name="FriendEmail[]" placeholder = "Friend E-mail" aria-describedby = "EmailHelp">
+                  </div>
+                </div>
                   <div class = "controls">
                      <button href="#" type="button" class="btn btn-primary" id = "add_more_fields"> Add more </button>
                      <button href="#" type="button" class="btn btn-primary" id = "remove_fields"> Remove field </button>
                   </div>
-               </form>
+
+
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-               <button type="button" class="btn btn-primary">Submit</button>
+               <button type="submit" name="submit" class="btn btn-block mybtn btn-primary tx-tfm">Submit</button>
             </div>
+          </form>
          </div>
       </div>
    </div>
