@@ -122,33 +122,46 @@ function loginUser($conn, $username, $pwd) {
   }
 }
 
-function createSubscription($conn, $user_id, $subscription_name, $date){
+function createSubscription($stmt, $conn, $user_id, $subscription_name, $date){
   $sql = "INSERT INTO subscriptions (user_id, name, date) VALUES (?, ?, ?);";
-  $stmt = mysqli_stmt_init($conn);
   if(!mysqli_stmt_prepare($stmt, $sql)){
-    header("location: ../planner.php?error=stmtfailed1");
+    header("location: ../planner.php?error=stmt_failed_subscription");
     exit();
   }
 
   mysqli_stmt_bind_param($stmt, "sss", $user_id, $subscription_name, $date);
   mysqli_stmt_execute($stmt);
-  mysqli_stmt_close($stmt);
   header("location: ../planner.php?error=none");
-  //exit();
 }
 
-function createSubscriber($conn, $friendName, $friendEmail){
+function createSubscriber($stmt, $conn,$subscription_id, $friendName, $friendEmail){
   $sql = "INSERT INTO subscribers (subscription_id, name, email) VALUES (?, ?, ?);";
-  $stmt = mysqli_stmt_init($conn);
   if(!mysqli_stmt_prepare($stmt, $sql)){
-    header("location: ../planner.php?error=stmtfailed2");
+    header("location: ../planner.php?error=stmt_failed_subscriber");
     exit();
   }
-  $user_subscription = 1;
-  mysqli_stmt_bind_param($stmt, "sss", $user_subscription, $friendName[0], $friendEmail[0]);
+  mysqli_stmt_bind_param($stmt, "sss", $subscription_id, $friendName[0], $friendEmail[0]);
   mysqli_stmt_execute($stmt);
-  mysqli_stmt_close($stmt);
   header("location: ../planner.php?error=none");
   exit();
 
+}
+
+function getSubscriptionId($stmt){
+  $sql = "SELECT * FROM subscriptions ORDER BY id DESC LIMIT 1;";
+  if(!mysqli_stmt_prepare($stmt, $sql)){
+    header("location: ../signup.php?error=stmt_failed_subscriptionId");
+    exit();
+  }
+
+  mysqli_stmt_execute($stmt);
+
+  $result = mysqli_stmt_get_result($stmt);
+
+  if($row = mysqli_fetch_assoc($result)){
+    return $row["id"];
+  }
+  else{
+    return -1;
+  }
 }

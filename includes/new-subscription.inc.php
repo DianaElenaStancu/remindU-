@@ -22,8 +22,11 @@
     echo $friendName[0]."<br>";
     echo $friendEmail[0]."<br>";
 
-    createSubscription($conn, $user_id, $subscription_name, $date, $friendName, $friendEmail);
-    createSubscriber($conn, $friendName, $friendEmail);
+    $stmt = mysqli_stmt_init($conn);
+    createSubscription($stmt, $conn, $user_id, $subscription_name, $date);
+    $subscription_id = getSubscriptionId($stmt);
+    createSubscriber($stmt, $conn,$subscription_id, $friendName, $friendEmail);
+    mysqli_stmt_close($stmt);
   }
   else{
     header("location: ../planner.php");
