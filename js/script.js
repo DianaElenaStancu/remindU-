@@ -1,5 +1,5 @@
-var emailFriend  = document.getElementById('FriendEmail');
 var nameFriend = document.getElementById('FriendName');
+var emailFriend  = document.getElementById('InputEmail');
 var add_more_fields = document.getElementById('add_more_fields');
 var remove_fields = document.getElementById('remove_fields');
 
@@ -15,8 +15,9 @@ add_more_fields.onclick = function(){
 	newField1.setAttribute('class', 'form__control');
 	newField1.setAttribute('placeholder', 'Another Friend E-mail');
 
-	nameFriend.appendChild(newField1);
-	emailFriend.appendChild(newField2);
+	emailFriend.appendChild(newField1);
+	nameFriend.appendChild(newField2);
+
 }
 
 remove_fields.onclick = function() {
@@ -24,7 +25,9 @@ remove_fields.onclick = function() {
 	var input_tags2 = nameFriend.getElementsByTagName('input');
 
 	if(input_tags1.length > 1) {
+		console.log(input_tags1.length);
 		emailFriend.removeChild(input_tags1[(input_tags1.length) - 1]);
 		nameFriend.removeChild(input_tags2[(input_tags2.length) - 1]);
 	}
+
 }

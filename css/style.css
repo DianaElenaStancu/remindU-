@@ -57,10 +57,10 @@ body {
 }
 
 .form__control{
-  padding: 0.5rem;
-  min-width:20rem;
+  padding: 0.3rem;
+  min-width:10rem;
   border: 1px solid rgba(0,0,0,.2);
-	border-radius: 1.1rem;
+	border-radius: 1rem;
 	outline: 0;
 }
 
