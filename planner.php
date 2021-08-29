@@ -31,33 +31,14 @@
                      <label for="payDay" class = "form__label">When is the pay day:</label>
                      <input type="date" class = "form__control" id="InputPayDay" name="payDay" placeholder = "..." aria-describedby = "DayHelp">
                   </div>
-                  <!--<div  class = "form__group" id="FriendName">
-                     <label for="FriendName" class = "form__label">Your friend(s)' data</label>
-                     <input type = "text"  class = "form__control" id = "InputFriendName" name="FriendName[]" placeholder = "Friend Name" aria-describedby = "FriendNameHelp">
+                    <div class="form-check form-switch">
+                      <input class="form-check-input" type="checkbox" id="AddFriendsCheckbox">
+                      <label class="form-check-label" for="flexSwitchCheckDefault">Do you want to remind your friends too?</label>
+                      <div  id = "AddFriendInput">
                      </div>
-                     <div  class = "form__group" id="FriendEmail">
-                     <label for="emailFriend" class = "form__label">Your friends' email(s):</label>
-                     <input type = "text"  class = "form__control" id = "InputEmail" name="FriendEmail[]" placeholder = "Friend E-mail" aria-describedby = "EmailHelp">
-                     </div> -->
-                  <div class = "form__group">
-                     <div class="input-group">
-                        <div class="input-group-prepend">
-                           <span class="input-group-text" id="">Your friend's data</span>
-                        </div>
-                        <div id = "FriendName">
-                        <input type = "text"  class = "form__control" id = "InputFriendName" name="FriendName[]" placeholder = "Friend Name" aria-describedby = "FriendNameHelp">
-                        <input type = "text"  class = "form__control" id = "InputEmail" name="FriendEmail[]" placeholder = "Friend E-mail" aria-describedby = "EmailHelp">
-                      </div>
-                        <div class="input-group-append">
-                           <button href="#" class="btn btn-outline-secondary" type="button" id = "add_more_fields">Add more</button>
-                           <button href="#" class="btn btn-outline-secondary" type="button" id = "remove_fields">Remove field</button>
-                        </div>
-                     </div>
-                  </div>
-                  <!--  <div class = "controls">
-                     <button href="#" type="button" class="btn btn-primary" id = "add_more_fields"> Add more </button>
-                     <button href="#" type="button" class="btn btn-primary" id = "remove_fields"> Remove field </button>
-                     </div>-->
+                     <div class="input-group" id = "AddFriendInput">
+                    </div>
+                    </div>
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
