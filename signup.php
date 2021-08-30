@@ -1,15 +1,15 @@
 <?php
    include_once 'header.php';
    ?>
-   <script>
-    $(document).ready(function(){
-      SignUp();
-    });
-   </script>
+<script>
+   $(document).ready(function(){
+     SignUp();
+   });
+</script>
 <div class = "container__form">
    <h2 class = "heading-secondary">Sign up</h2>
    <div class = "row justify-content-md-center">
-      <form action="includes/signup.inc.php" method="post">
+      <form id = "signupForm" action="includes/signup.inc.php" method="post">
          <div class = "form__group">
             <!--  <label for="FullName" class = "form__label"> Full name </label> --> <!---->
             <input type="text" class = "form__control" id = "fullname" name="name" placeholder="Enter Full name..." aria-describedby="NameHelp">
@@ -34,7 +34,6 @@
          <div class = "form-message"></div>
       </form>
    </div>
-
 </div>
 <?php
    include_once 'footer.php';

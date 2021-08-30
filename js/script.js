@@ -1,42 +1,28 @@
 function SignUp() {
     console.log("signup page");
-     $("form").submit(function(event){
-       event.preventDefault();//disable the action and the method
-       var name = $("#fullname").val();
-       var email = $("#email").val();
-       var username = $("#username").val();
-       var password = $("#password").val();
-       var repeatpassword = $("#repeatPassword").val();
-       var resultDropdown = $("div").siblings(".form-message");
+    $("form").submit(function(event) {
+        event.preventDefault(); //disable the action and the method
+        var name = $("#fullname").val();
+        var email = $("#email").val();
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var repeatpassword = $("#repeatPassword").val();
+        var resultDropdown = $("div").siblings(".form-message");
 
-       $.post("includes/signup.inc.php", {name: name,
-       email: email,
-       username: username,
-       pwd: password,
-       pwdRepeat: repeatpassword}).done(function(data){
-         //return data
-         resultDropdown.html(data);
-         console.log("ok");
-       });
-     });
-      /*
-
-
-
-      });
-      $("#mail-name, #mail-email, #mail-message, #mail-gender").removeClass("input-error");
-      var errorEmpty = "<?php echo $errorEmpty; ?>";
-      var errorEmail = "<?php echo $errorEmail; ?>";
-
-      if(errorEmpty == true ){
-        $("#mail-name, #mail-email, #mail-message").addClass("input-error");
-      }
-      if(errorEmail == true ){
-        $("#mail-email").addClass("input-error");
-      }
-      if(errorEmpty == false && errorEmail == false){
-        $("#mail-name, #mail-email, #mail-message").val("");
-      }*/
+        $.post("includes/signup.inc.php", {
+            name: name,
+            email: email,
+            username: username,
+            pwd: password,
+            pwdRepeat: repeatpassword
+        }).done(function(data) {
+            resultDropdown.html(data);
+            if (data === "<p class=\"alert alert-success\" role=\"alert\">Signed up successfully!</p>")
+                $('#signupForm').each(function() {
+                    this.reset();
+                });
+        });
+    });
 }
 
 function ModalAddFriends() {
@@ -86,4 +72,4 @@ function ModalAddFriends() {
             $('div.input-group').remove();
         }
     });
-  }
+}
