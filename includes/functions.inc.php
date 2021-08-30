@@ -1,55 +1,26 @@
 <?php
 
 function emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat){
-  $result;
-  if (empty($name) || empty($email) || empty($username) || empty($pwd) || empty($pwdRepeat)) {
-    $result = true;
-  }
-  else{
-    $result = false;
-  }
-  return $result;
+  return (empty($name) || empty($email) || empty($username) || empty($pwd) || empty($pwdRepeat));
 }
 
-function invalidUid($username){
-  $result;
-  if (!preg_match("/^[a-zA-Z0-9]*$/", $username)) {
-    $result = true;
-  }
-  else{
-    $result = false;
-  }
-  return $result;
+function validUid($username){
+  return !preg_match("/^[a-zA-Z0-9]*$/", $username);
 }
 
-function invalidEmail($email){
-  $result;
-  if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    $result = true;
-  }
-  else{
-    $result = false;
-  }
-  return $result;
+function validEmail($email){
+  return !filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
 function pwdMatch($pwd, $pwdRepeat){
-  $result;
-  if ($pwd !== $pwdRepeat) {
-    $result = true;
-  }
-  else{
-    $result = false;
-  }
-  return $result;
+  return ($pwd !== $pwdRepeat);
 }
 
 function uidExists($conn, $username, $email){
   $sql = "SELECT * FROM users WHERE usersUid = ? OR usersEmail = ?;";
   $stmt = mysqli_stmt_init($conn);
   if(!mysqli_stmt_prepare($stmt, $sql)){
-    header("location: ../signup.php?error=stmtfailed");
-    exit();
+    return false;
   }
 
   mysqli_stmt_bind_param($stmt, "ss", $username, $email);
@@ -71,8 +42,7 @@ function createUser($conn, $name, $email, $username, $pwd){
   $sql = "INSERT INTO users (usersName, usersEmail, usersUid, usersPwd) VALUES (?, ?, ?, ?);";
   $stmt = mysqli_stmt_init($conn);
   if(!mysqli_stmt_prepare($stmt, $sql)){
-    header("location: ../signup.php?error=stmtfailed");
-    exit();
+    return "<p class=\"alert alert-danger\" role=\"alert\">Something went wrong! Please try again.</p>";
   }
 
   $hashedPwd = password_hash($pwd, PASSWORD_DEFAULT);
@@ -80,8 +50,7 @@ function createUser($conn, $name, $email, $username, $pwd){
   mysqli_stmt_bind_param($stmt, "ssss",$name, $email, $username, $hashedPwd);
   mysqli_stmt_execute($stmt);
   mysqli_stmt_close($stmt);
-  header("location: ../signup.php?error=none");
-  exit();
+  return "<p class=\"alert alert-success\" role=\"alert\">Signed up successfully!</p>";
 }
 
 function emptyInputLogin($username, $pwd){
@@ -134,17 +103,15 @@ function createSubscription($stmt, $conn, $user_id, $subscription_name, $date){
   header("location: ../planner.php?error=none");
 }
 
-function createSubscriber($stmt, $conn,$subscription_id, $friendName, $friendEmail){
+function createSubscriber($stmt, $conn, $subscription_id, $name, $email){
   $sql = "INSERT INTO subscribers (subscription_id, name, email) VALUES (?, ?, ?);";
   if(!mysqli_stmt_prepare($stmt, $sql)){
     header("location: ../planner.php?error=stmt_failed_subscriber");
     exit();
   }
-  mysqli_stmt_bind_param($stmt, "sss", $subscription_id, $friendName[0], $friendEmail[0]);
+  mysqli_stmt_bind_param($stmt, "sss", $subscription_id, $name, $email);
   mysqli_stmt_execute($stmt);
   header("location: ../planner.php?error=none");
-  exit();
-
 }
 
 function getSubscriptionId($stmt){
@@ -164,4 +131,15 @@ function getSubscriptionId($stmt){
   else{
     return -1;
   }
+}
+
+function emptyInputNewSubscription($subscription_name, $date, $friendName, $friendEmail){
+  $result = false;
+  for($id = 0; $id < count($friendName); $id++)
+    if(empty(friendEmail[$id]) || empty(friendName[$id]))
+      $result = true;
+  if (empty($subscription_name) || empty($date)) {
+    $result = true;
+  }
+  return $result;
 }

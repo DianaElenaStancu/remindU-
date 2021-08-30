@@ -1,44 +1,41 @@
 <?php
 
-if(isset($_POST["submit"])){
-
   $name = $_POST["name"];
   $email = $_POST["email"];
-  $username = $_POST["uid"];
+  $username = $_POST["username"];
   $pwd = $_POST["pwd"];
   $pwdRepeat = $_POST["pwdRepeat"];
+  $error = false;
 
   require_once 'dbh.inc.php';
   require_once 'functions.inc.php';
 
+
   if(emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat) !== false) {
-    header("location: ../signup.php?error=emptyinput");
-    exit();
+    echo "<p class=\"alert alert-danger\" role=\"alert\">Fill in al fields!</p>";
+    $error = true;
   }
 
-  if(invalidUid($username) !== false) {
-    header("location: ../signup.php?error=invaliduid");
-    exit();
+  elseif(validUid($username) !== false) {
+    echo "<p class=\"alert alert-danger\" role=\"alert\">Choose a proper username!</p>";
+    $error = true;
   }
 
-  if(invalidEmail($email) !== false) {
-    header("location: ../signup.php?error=invalidemail");
-    exit();
-  }
-  if(pwdMatch($pwd, $pwdRepeat) !== false) {
-    header("location: ../signup.php?error=pwdsdontmatch");
-    exit();
+  elseif(validEmail($email) !== false) {
+    echo "<p class=\"alert alert-danger\" role=\"alert\">Choose a proper email!</p>";
+    $error = true;
   }
 
-  if(uidExists($conn, $username, $email) !== false) {
-    header("location: ../signup.php?error=usernametaken");
-    exit();
+  elseif(pwdMatch($pwd, $pwdRepeat) !== false) {
+    echo "<p class=\"alert alert-danger\" role=\"alert\">Passwords does not match!</p>";
+    $error = true;
   }
 
-  createUser($conn, $name, $email, $username, $pwd);
+  elseif(uidExists($conn, $username, $email) !== false) {
+    echo "<p class=\"alert alert-danger\" role=\"alert\">Username already taken!</p>";
+    $error = true;
+  }
 
-}
-else{
-  header("location: ../signup.php");
-  exit();
-}
+  if($error === false)
+    echo createUser($conn, $name, $email, $username, $pwd);
+?>

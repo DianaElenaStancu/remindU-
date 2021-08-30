@@ -1,4 +1,46 @@
-$(document).ready(function() {
+function SignUp() {
+    console.log("signup page");
+     $("form").submit(function(event){
+       event.preventDefault();//disable the action and the method
+       var name = $("#fullname").val();
+       var email = $("#email").val();
+       var username = $("#username").val();
+       var password = $("#password").val();
+       var repeatpassword = $("#repeatPassword").val();
+       var resultDropdown = $("div").siblings(".form-message");
+
+       $.post("includes/signup.inc.php", {name: name,
+       email: email,
+       username: username,
+       pwd: password,
+       pwdRepeat: repeatpassword}).done(function(data){
+         //return data
+         resultDropdown.html(data);
+         console.log("ok");
+       });
+     });
+      /*
+
+
+
+      });
+      $("#mail-name, #mail-email, #mail-message, #mail-gender").removeClass("input-error");
+      var errorEmpty = "<?php echo $errorEmpty; ?>";
+      var errorEmail = "<?php echo $errorEmail; ?>";
+
+      if(errorEmpty == true ){
+        $("#mail-name, #mail-email, #mail-message").addClass("input-error");
+      }
+      if(errorEmail == true ){
+        $("#mail-email").addClass("input-error");
+      }
+      if(errorEmpty == false && errorEmail == false){
+        $("#mail-name, #mail-email, #mail-message").val("");
+      }*/
+}
+
+function ModalAddFriends() {
+    console.log("planner page");
     $("#AddFriendsCheckbox").click(function() {
         if ($('#AddFriendsCheckbox').prop('checked')) {
             console.log('checked');
@@ -13,7 +55,7 @@ $(document).ready(function() {
 
             removeButton.click(function() {
                 $(this).parent().remove();
-								$('#AddFriendsCheckbox').prop('checked', false);
+                $('#AddFriendsCheckbox').prop('checked', false);
             });
 
             addButton.click(function() {
@@ -44,4 +86,4 @@ $(document).ready(function() {
             $('div.input-group').remove();
         }
     });
-});
+  }

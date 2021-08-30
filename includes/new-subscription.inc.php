@@ -10,23 +10,32 @@
     $friendName = $_POST['FriendName'];
     $friendEmail = $_POST['FriendEmail'];
 
+    $_SESSION['message'] = "Successfully Submitted!";
 
-    echo $subscription_name."<br>";
-    echo $date."<br>";
-  /*  foreach($friendEmail as $email){
-      echo $email."<br>";
+    foreach($friendEmail as $email)
+      if(invalidEmail($email) !== false) {
+          $_SESSION['message'] = "Invalid email! Please try again.";
+          header("location: ../planner.php");
+          exit();
     }
-    foreach($friendName as $name){
-      echo $name."<br>";
-    }*/
-    echo $friendName[0]."<br>";
-    echo $friendEmail[0]."<br>";
+
+    if(emptyInputNewSubscription($subscription_name, $date, $friendName, $friendEmail) !== false) {
+      $_SESSION['message'] = "Fill in all the fields!";
+      header("location: ../planner.php");
+      exit();
+    }
 
     $stmt = mysqli_stmt_init($conn);
     createSubscription($stmt, $conn, $user_id, $subscription_name, $date);
     $subscription_id = getSubscriptionId($stmt);
-    createSubscriber($stmt, $conn,$subscription_id, $friendName, $friendEmail);
+    for($id = 0; $id < count($friendName); $id++)
+    {
+      $name = $friendName[$id];
+      $email = $friendEmail[$id];
+      createSubscriber($stmt, $conn, $subscription_id, $name, $email);
+    }
     mysqli_stmt_close($stmt);
+    exit();
   }
   else{
     header("location: ../planner.php");
