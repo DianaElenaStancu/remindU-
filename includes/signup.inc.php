@@ -19,8 +19,8 @@ if (emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat) !== false) {
 } elseif (pwdMatch($pwd, $pwdRepeat) !== false) {
     echo "<p class=\"alert alert-danger\" role=\"alert\">Passwords does not match!</p>";
     $error = true;
-} elseif (uidExists($conn, $username, $email) !== false) {
-    echo "<p class=\"alert alert-danger\" role=\"alert\">Username already taken!</p>";
+} elseif (uidExists($conn, $username, $email) === true) {
+    echo "<p class=\"alert alert-danger\" role=\"alert\">Username/E-mail already taken!</p>";
     $error = true;
 }
 if ($error === false) echo createUser($conn, $name, $email, $username, $pwd);
