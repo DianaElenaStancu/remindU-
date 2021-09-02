@@ -1,41 +1,28 @@
 <?php
   include_once 'header.php';
 ?>
-
+  <script>
+    $(document).ready(function(){
+     LogIn();
+   });
+</script>
     <div class= "container__form">
       <h2 class = "heading-secondary">Log in</h2>
       <div class = "row justify-content-md-center">
-        <form action="includes/login.inc.php" method="post">
+        <form action="includes/login.inc.php" method="post" id = "loginForm">
           <div  class = "form__group">
             <label for="InputUid" class = "form__label">Username/Email </label>
-            <input type="text" class = "form__control" id = "InputUid" name="uid" placeholder="Username/Email..." aria-describedby="UidHekp">
+            <input type="text" class = "form__control" id = "username" name="username" placeholder="Username/Email..." aria-describedby="UidHelp">
           </div>
           <div class = "form__group">
             <label for="InputPwd" class = "form__label">Password</label>
-            <input type="password" class = "form__control" name="pwd" placeholder="Password..." id = "InputPwd">
+            <input type="password" class = "form__control" name="pwd" placeholder="Password..." id = "password">
           </div>
-            <button type="submit" class = "btn btn-block mybtn btn-primary tx-tfm" name="submit">Log In</button>
+            <button type="submit" id = "submit" class = "btn btn-block mybtn btn-primary tx-tfm" name="submit">Log In</button>
         </form>
-
-        <?php
-          if(isset($_GET["newpwd"])){
-            if($_GET["newpwd"] == "passwordupdated"){
-              echo '<p class="alert alert-primary" role="alert">Your password has been reset!</p>';
-            }
-          }
-         ?>
         <a href = "reset-password.php">Forgot your password?</a>
       </div>
-      <?php
-        if(isset($_GET["error"])){
-          if($_GET["error"] == "emptyinput"){
-            echo '<p class="alert alert-primary" role="alert">Fill in al fields!</p>';
-          }
-          else if($_GET["error"] == "wronglogin"){
-            echo '<p class="alert alert-primary" role="alert">Incorrect login information!</p>';
-          }
-        }
-       ?>
+      <div class = "form-message"></div>
     </div>
 
 

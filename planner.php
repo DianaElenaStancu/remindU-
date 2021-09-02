@@ -1,6 +1,12 @@
 <?php
    include_once 'header.php';
    ?>
+<script>
+    $(document).ready(function(){
+       ModalAddFriends();
+       NewSubscription();
+    });
+</script>
 <section>
    <?php
       if(isset($_SESSION["useruid"])){
@@ -8,15 +14,6 @@
       }
     ?>
    <p> Here are your subscriptions! </p>
-   <?php
-    if(isset($_SESSION['message'])){
-      if($_SESSION['message'] === "Successfully Submitted!")
-        echo '<div class="alert alert-success" role="alert">'.$_SESSION['message'].'</div>';
-      else
-        echo '<div class="alert alert-danger" role="alert">'.$_SESSION['message'].'</div>';
-     unset($_SESSION['message']);
-    }
-    ?>
    <!-- Button trigger modal -->
   <a href = "#NewSubscription"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
    Add new subscriptions
@@ -33,24 +30,20 @@
                <div class="modal-body">
                   <div  class = "form__group">
                      <label for="InputSubscription" class = "form__label">Subscription name </label>
-                     <input type="text" class = "form__control" id = "InputSubscription" name="subscription" placeholder="Subscription name..." aria-describedby="SubHelp">
+                     <input type="text" class = "form__control" id = "subscription" name="subscription" placeholder="Subscription name..." aria-describedby="SubHelp">
                   </div>
                   <div class = "form__group">
                      <label for="payDay" class = "form__label">When is the pay day:</label>
-                     <input type="date" class = "form__control" id="InputPayDay" name="payDay" placeholder = "..." aria-describedby = "DayHelp">
+                     <input type="date" class = "form__control" id="date" name="date" placeholder = "..." aria-describedby = "DayHelp">
                   </div>
                     <div class="form-check form-switch">
-                      <input class="form-check-input" type="checkbox" id="AddFriendsCheckbox">
+                      <input class="form-check-input" type="checkbox" id="addFriendsCheckbox">
                       <label class="form-check-label" for="flexSwitchCheckDefault">Do you want to remind your friends too?</label>
-                      <div  id = "AddFriendInput">
+                      <div  id = "addFriendInput">
                      </div>
-                     <script>
-                      $(document).ready(function(){
-                         ModalAddFriends();
-                      });
-                     </script>
                     </div>
                </div>
+               <div class = "form-message"> </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id = "close">Close</button>
                   <button type="submit" name="submit" class="btn btn-block mybtn btn-primary tx-tfm" id = "submit">Submit</button>

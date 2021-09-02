@@ -21,9 +21,10 @@ function uidExists($conn, $username, $email) {
   mysqli_stmt_bind_param($stmt, "ss", $username, $email);
   mysqli_stmt_execute($stmt);
   $resultData = mysqli_stmt_get_result($stmt);
-  if($row = mysqli_fetch_assoc($resultData))
+  if($row = mysqli_fetch_assoc($resultData)){
+    return $row;
     $result = true;
-  else
+  }else
     $result = false;
   mysqli_stmt_close($stmt);
   return $result;
@@ -41,60 +42,52 @@ function createUser($conn, $name, $email, $username, $pwd) {
     return "<p class=\"alert alert-success\" role=\"alert\">Signed up successfully!</p>";
 }
 function emptyInputLogin($username, $pwd) {
-    $result;
-    if (empty($username) || empty($pwd)) {
-        $result = true;
-    } else {
-        $result = false;
-    }
-    return $result;
+  return (empty($username) || empty($pwd));
 }
 function loginUser($conn, $username, $pwd) {
-    print_r($conn);
-    print_r($username);
-    print_r($pwd);
+    //print_r($conn);
+    //print_r($username);
+    //print_r($pwd);
     $uidExists = uidExists($conn, $username, $username);
     if ($uidExists === false) {
-        header("location: ../login.php?error=wronglogin");
-        exit();
+      echo "<p class=\"alert alert-danger\" role=\"alert\">Incorrect username/e-mail!</p>";
+      exit();
     }
-    $pwdHashed = $uidExists["usersPwd"];
+    $pwdHashed = $uidExists['usersPwd'];
     $checkPwd = password_verify($pwd, $pwdHashed);
     if ($checkPwd === false) {
-        header("location: ../login.php?error=wronglogin");
-        exit();
+        echo "<p class=\"alert alert-danger\" role=\"alert\">Incorrect password!</p>";
     } else if ($checkPwd === true) {
         session_start();
         $_SESSION["userid"] = $uidExists["usersId"];
         $_SESSION["useruid"] = $uidExists["usersUid"];
-        header("location: ../planner.php");
-        exit();
+        echo "<p class=\"alert alert-success\" role=\"alert\">Logged in successfully!</p>";
     }
 }
 function createSubscription($stmt, $conn, $user_id, $subscription_name, $date) {
     $sql = "INSERT INTO subscriptions (user_id, name, date) VALUES (?, ?, ?);";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../planner.php?error=stmt_failed_subscription");
+        echo "<p class=\"alert alert-danger\" role=\"alert\">Something went wrong</p>";
         exit();
     }
     mysqli_stmt_bind_param($stmt, "sss", $user_id, $subscription_name, $date);
     mysqli_stmt_execute($stmt);
-    header("location: ../planner.php?error=none");
+    echo "<p class=\"alert alert-success\" role=\"alert\">New subscription added successfully!</p>";
 }
 function createSubscriber($stmt, $conn, $subscription_id, $name, $email) {
     $sql = "INSERT INTO subscribers (subscription_id, name, email) VALUES (?, ?, ?);";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../planner.php?error=stmt_failed_subscriber");
+        echo "<p class=\"alert alert-danger\" role=\"alert\">Something went wrong</p>";
         exit();
     }
     mysqli_stmt_bind_param($stmt, "sss", $subscription_id, $name, $email);
     mysqli_stmt_execute($stmt);
-    header("location: ../planner.php?error=none");
+    echo "<p class=\"alert alert-success\" role=\"alert\">New subscription added successfully!</p>";
 }
 function getSubscriptionId($stmt) {
     $sql = "SELECT * FROM subscriptions ORDER BY id DESC LIMIT 1;";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        header("location: ../signup.php?error=stmt_failed_subscriptionId");
+        echo "<p class=\"alert alert-success\" role=\"alert\">Something went wrong</p>";
         exit();
     }
     mysqli_stmt_execute($stmt);
