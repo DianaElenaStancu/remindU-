@@ -3,13 +3,13 @@ function emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat) {
     return (empty($name) || empty($email) || empty($username) || empty($pwd) || empty($pwdRepeat));
 }
 function validUid($username) {
-    return !preg_match("/^[a-zA-Z0-9]*$/", $username);
+    return preg_match("/^[a-zA-Z0-9]*$/", $username);
 }
 function validEmail($email) {
-    return !filter_var($email, FILTER_VALIDATE_EMAIL);
+    return filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 function pwdMatch($pwd, $pwdRepeat) {
-    return ($pwd !== $pwdRepeat);
+    return ($pwd === $pwdRepeat);
 }
 function uidExists($conn, $username, $email) {
   $sql = "SELECT * FROM users WHERE usersUid = ? OR usersEmail = ?;";
@@ -22,8 +22,7 @@ function uidExists($conn, $username, $email) {
   mysqli_stmt_execute($stmt);
   $resultData = mysqli_stmt_get_result($stmt);
   if($row = mysqli_fetch_assoc($resultData)){
-    return $row;
-    $result = true;
+    $result = $row;
   }else
     $result = false;
   mysqli_stmt_close($stmt);
@@ -45,9 +44,6 @@ function emptyInputLogin($username, $pwd) {
   return (empty($username) || empty($pwd));
 }
 function loginUser($conn, $username, $pwd) {
-    //print_r($conn);
-    //print_r($username);
-    //print_r($pwd);
     $uidExists = uidExists($conn, $username, $username);
     if ($uidExists === false) {
       echo "<p class=\"alert alert-danger\" role=\"alert\">Incorrect username/e-mail!</p>";
@@ -67,43 +63,40 @@ function loginUser($conn, $username, $pwd) {
 function createSubscription($stmt, $conn, $user_id, $subscription_name, $date) {
     $sql = "INSERT INTO subscriptions (user_id, name, date) VALUES (?, ?, ?);";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        echo "<p class=\"alert alert-danger\" role=\"alert\">Something went wrong</p>";
-        exit();
+        return false;
     }
     mysqli_stmt_bind_param($stmt, "sss", $user_id, $subscription_name, $date);
     mysqli_stmt_execute($stmt);
-    echo "<p class=\"alert alert-success\" role=\"alert\">New subscription added successfully!</p>";
+    return true;
 }
 function createSubscriber($stmt, $conn, $subscription_id, $name, $email) {
     $sql = "INSERT INTO subscribers (subscription_id, name, email) VALUES (?, ?, ?);";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        echo "<p class=\"alert alert-danger\" role=\"alert\">Something went wrong</p>";
+        return false;
         exit();
     }
     mysqli_stmt_bind_param($stmt, "sss", $subscription_id, $name, $email);
     mysqli_stmt_execute($stmt);
-    echo "<p class=\"alert alert-success\" role=\"alert\">New subscription added successfully!</p>";
+    return true;
 }
 function getSubscriptionId($stmt) {
     $sql = "SELECT * FROM subscriptions ORDER BY id DESC LIMIT 1;";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-        echo "<p class=\"alert alert-success\" role=\"alert\">Something went wrong</p>";
-        exit();
+        return false;
     }
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     if ($row = mysqli_fetch_assoc($result)) {
         return $row["id"];
-    } else {
-        return -1;
     }
 }
-function emptyInputNewSubscription($subscription_name, $date, $friendName, $friendEmail) {
+function emptyInputNewSubscription($subscription, $date, $friendName, $friendEmail, $subscribers) {
     $result = false;
+    if($subscribers)
     for ($id = 0;$id < count($friendName);$id++)
-      if (empty(friendEmail[$id]) || empty(friendName[$id]))
+      if (empty($friendEmail[$id]) || empty($friendName[$id]))
         $result = true;
-    if (empty($subscription_name) || empty($date)) {
+    if (empty($subscription) || empty($date)) {
         $result = true;
     }
     return $result;

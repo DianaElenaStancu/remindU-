@@ -61,6 +61,8 @@ function NewSubscription() {
         else if(this.name == "FriendEmail[]")
           friendEmail.push(elem.value);
       });
+      console.log(friendEmail);
+      console.log(friendName);
       var resultDropdown = $("div").siblings(".form-message");
 
       $.post("includes/new-subscription.inc.php", {
@@ -69,9 +71,18 @@ function NewSubscription() {
           friendName: friendName,
           friendEmail: friendEmail
       }).done(function(data) {
-        console.log(data);
+        if (data === "<p class=\"alert alert-success\" role=\"alert\">Subscription added successfully!</p>")
+            $('#newSubForm').each(function() {
+                this.reset();
+                $(".input-group").html("");
+            });
         resultDropdown.html(data);
       });
+    });
+    $('#exampleModal').on('hidden.bs.modal', function () {
+      $(this).find('form').trigger('reset');
+      $(".form-message").html("");
+      $(".input-group").html("");
     });
 }
 

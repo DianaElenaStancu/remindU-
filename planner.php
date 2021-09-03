@@ -15,18 +15,18 @@
     ?>
    <p> Here are your subscriptions! </p>
    <!-- Button trigger modal -->
-  <a href = "#NewSubscription"><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
    Add new subscriptions
- </button></a>
+ </button>
    <!-- Modal -->
    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
          <div class="modal-content">
             <div class="modal-header">
                <h5 class="modal-title" id="exampleModalLabel">Add new subscription</h5>
-               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id = "close-header"></button>
             </div>
-            <form action="includes/new-subscription.inc.php" method = "post">
+            <form action="includes/new-subscription.inc.php" method = "post" id = "newSubForm">
                <div class="modal-body">
                   <div  class = "form__group">
                      <label for="InputSubscription" class = "form__label">Subscription name </label>

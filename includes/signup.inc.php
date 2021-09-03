@@ -7,16 +7,16 @@ $pwdRepeat = $_POST["pwdRepeat"];
 $error = false;
 require_once 'dbh.inc.php';
 require_once 'functions.inc.php';
-if (emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat) !== false) {
+if (emptyInputSignup($name, $email, $username, $pwd, $pwdRepeat) === true) {
     echo "<p class=\"alert alert-danger\" role=\"alert\">Fill in al fields!</p>";
     $error = true;
-} elseif (validUid($username) !== false) {
-    echo "<p class=\"alert alert-danger\" role=\"alert\">Choose a proper username!</p>";
+} elseif (validUid($username) !== 1) {
+    echo "<br><p class=\"alert alert-danger\" role=\"alert\">Choose a proper username!</p>";
     $error = true;
-} elseif (validEmail($email) !== false) {
+} elseif (validEmail($email) === false) {
     echo "<p class=\"alert alert-danger\" role=\"alert\">Choose a proper email!</p>";
     $error = true;
-} elseif (pwdMatch($pwd, $pwdRepeat) !== false) {
+} elseif (pwdMatch($pwd, $pwdRepeat) === false) {
     echo "<p class=\"alert alert-danger\" role=\"alert\">Passwords does not match!</p>";
     $error = true;
 } elseif (uidExists($conn, $username, $email) !== false) {
