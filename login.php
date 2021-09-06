@@ -3,7 +3,7 @@
 ?>
   <script>
     $(document).ready(function(){
-     LogIn();
+     logIn();
    });
 </script>
     <div class= "container__form">

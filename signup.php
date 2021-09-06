@@ -3,7 +3,7 @@
    ?>
 <script>
    $(document).ready(function(){
-     SignUp();
+     signUp();
    });
 </script>
 <div class = "container__form">

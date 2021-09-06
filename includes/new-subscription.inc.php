@@ -45,11 +45,12 @@
 
     $stmt = mysqli_stmt_init($conn);
 
-    $subscription_id = getSubscriptionId($stmt);
 
     if(!createSubscription($stmt, $conn, $user_id, $subscription, $date))
       $error = true;
 
+    $subscription_id = getSubscriptionId($stmt);
+    
     if($subscribers){
       for($id = 0; $id < count($friendName); $id++)
       {

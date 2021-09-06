@@ -1,4 +1,4 @@
-function SignUp() {
+function signUp() {
     console.log("signup page");
     $("form").submit(function(event) {
         event.preventDefault(); //disable the action and the method
@@ -25,7 +25,7 @@ function SignUp() {
     });
 }
 
-function LogIn() {
+function logIn() {
     console.log("login page");
     $("form").submit(function(event) {
       event.preventDefault(); //disable the action and the method
@@ -47,7 +47,33 @@ function LogIn() {
     });
 }
 
-function NewSubscription() {
+function loadSubscriptions(){
+  console.log("load subscriptions function ready");
+      $.post("includes/load-subscriptions.inc.php", {}).done(function(result){
+        //console.log(result);
+        result = jQuery.parseJSON(result);
+        console.log(result);
+        if(result === "There are no subscriptions yet &#9785;."){
+          document.getElementById('subscriptionTable').innerHTML = result;
+        }
+        else {
+          $.each(result, function(index, element){
+            console.log(element.name);
+            tableRow = "<tr>";
+            tableRow +=  "<th>" + $('#subscriptionTableBody tr').length + "</th>" +
+            "<td>" + element.name + "</td>" +
+            "<td>" + element.date + "</td>" +
+            "<td>" + element.subscribers.length + "</td>" +
+            "</tr>";
+            $('#subscriptionTableBody tr:last').after(tableRow);
+          });
+        }
+      });
+
+
+}
+
+function newSubscription() {
     $("form").submit(function(event) {
       console.log("newsub");
       event.preventDefault(); //disable the action and the method
@@ -77,6 +103,8 @@ function NewSubscription() {
                 $(".input-group").html("");
             });
         resultDropdown.html(data);
+        $("#subscriptionTableBody tr").empty();
+        loadSubscriptions();
       });
     });
     $('#exampleModal').on('hidden.bs.modal', function () {
@@ -86,7 +114,7 @@ function NewSubscription() {
     });
 }
 
-function ModalAddFriends() {
+function modalAddFriends() {
     console.log("planner page");
     $("#addFriendsCheckbox").click(function() {
         if ($('#addFriendsCheckbox').prop('checked')) {

@@ -3,8 +3,9 @@
    ?>
 <script>
     $(document).ready(function(){
-       ModalAddFriends();
-       NewSubscription();
+      loadSubscriptions();
+      modalAddFriends();
+      newSubscription();
     });
 </script>
 <section>
@@ -52,6 +53,23 @@
          </div>
       </div>
    </div>
+   <div id = "subscriptions">
+   </div>
+   <table class="table table-hover" id = "subscriptionTable">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Date</th>
+      <th scope="col">Subscribers</th>
+    </tr>
+  </thead>
+  <tbody id = "subscriptionTableBody">
+    <tr>
+    </tr>
+
+  </tbody>
+</table>
 </section>
 <?php
    include_once 'footer.php';
