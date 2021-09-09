@@ -98,28 +98,31 @@ body {
 	letter-spacing: .2rem;
 	transition: all .2s;
 }
+.btn, .dropdown-menu {
+	font-size: 1.5rem;
+}
 
-.btn {
+.btn-gosign {
 	display: inline-block;
 	text-decoration: none;
 	font-weight: 300;
 	font-size: 1.5rem;
 }
 
-.btn:link,
-.btn:visited {
+.btn-gosign:link,
+.btn-gosign:visited {
 	color: #505050;
 	border-bottom: 0.5px solid #505050;
 	transition: all .2s;
 }
 
-.btn:hover {
+.btn-gosign:hover {
 	color: #fff;
 	border-bottom: 2px solid #fff;
 	transform: translateY(-2px);
 }
 
-.btn:active {
+.btn-gosign:active {
 	transform: translate(0);
 }
 

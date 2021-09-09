@@ -51,21 +51,35 @@ function loadSubscriptions(){
   console.log("load subscriptions function ready");
       $.post("includes/load-subscriptions.inc.php", {}).done(function(result){
         //console.log(result);
-        result = jQuery.parseJSON(result);
-        console.log(result);
+        result = $.parseJSON(result);
+        //console.log(result);
         if(result === "There are no subscriptions yet &#9785;."){
           document.getElementById('subscriptionTable').innerHTML = result;
         }
         else {
           $.each(result, function(index, element){
-            console.log(element.name);
+            //console.log(element.name);
+            buttonDropDown = "<a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>View</a>"
+            buttonEdit = "<button type='button' class='btn btn-secondary' id = 'editSubscription'>Edit</button>"
+            buttonRemove = "<button type='button' class='btn btn-danger' id = 'removeSubscription'>Remove</button>"
             tableRow = "<tr>";
             tableRow +=  "<th>" + $('#subscriptionTableBody tr').length + "</th>" +
             "<td>" + element.name + "</td>" +
-            "<td>" + element.date + "</td>" +
-            "<td>" + element.subscribers.length + "</td>" +
-            "</tr>";
+            "<td>" + element.date + "</td>" ;
+            if(element.subscribers.length > 0){
+              tableRow += "<td><div class='dropdown'>" + buttonDropDown + "<ul class='dropdown-menu' aria-labelledby='dropdownMenuLink'>";
+              for(let i = 0; i < element.subscribers.length; i++){
+                tableRow += "<li><a class='dropdown-item' href='#'>" +
+                element.subscribers[i].name + "/" + element.subscribers[i].email +"</a></li>";
+              }
+              tableRow += "</div></td>";
+            }
+            else{
+              tableRow += "<td>null</td>";
+            }
+            tableRow += "<td>" + buttonEdit  + buttonRemove + "</td>" + "</tr>";
             $('#subscriptionTableBody tr:last').after(tableRow);
+
           });
         }
       });

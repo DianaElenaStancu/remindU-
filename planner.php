@@ -6,6 +6,7 @@
       loadSubscriptions();
       modalAddFriends();
       newSubscription();
+
     });
 </script>
 <section>
@@ -62,12 +63,13 @@
       <th scope="col">Name</th>
       <th scope="col">Date</th>
       <th scope="col">Subscribers</th>
+      <th scope="col"></th>
+
     </tr>
   </thead>
   <tbody id = "subscriptionTableBody">
     <tr>
     </tr>
-
   </tbody>
 </table>
 </section>
