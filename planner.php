@@ -6,7 +6,7 @@
       loadSubscriptions();
       modalAddFriends();
       newSubscription();
-
+      removeSubscription();
     });
 </script>
 <section>
@@ -35,8 +35,22 @@
                      <input type="text" class = "form__control" id = "subscription" name="subscription" placeholder="Subscription name..." aria-describedby="SubHelp">
                   </div>
                   <div class = "form__group">
-                     <label for="payDay" class = "form__label">When is the pay day:</label>
+                     <label for="payDay" class = "form__label">When is the last day you paid:</label>
                      <input type="date" class = "form__control" id="date" name="date" placeholder = "..." aria-describedby = "DayHelp">
+                  </div>
+                  <div class = "form__group">
+                     <label for="payDay" class = "form__label">How often do you have to pay:</label>
+                     <select  type="text" class="custom-select mr-sm-2" id="billing_frequency" name = "billing_frequency">
+                       <option value="Default" selected hidden >Choose...</option>
+                       <option value="Daily">Daily</option>
+                       <option value="Weekly">Weekly</option>
+                       <option value="Bi-weekly">Bi-weekly</option>
+                       <option value="Monthly">Monthly</option>
+                       <option value="Quarterly">Quarterly</option>
+                       <option value="Semi-annually">Semi-annually</option>
+                       <option value="Annually">Annually</option>
+                     </select>
+                     <!--<input type="date" class = "form__control" id="date" name="date" placeholder = "..." aria-describedby = "DayHelp">-->
                   </div>
                     <div class="form-check form-switch">
                       <input class="form-check-input" type="checkbox" id="addFriendsCheckbox">
@@ -56,15 +70,16 @@
    </div>
    <div id = "subscriptions">
    </div>
+   <button type='button' class='btn btn-danger' id = 'removeAllSubscription'>Remove all</button>
    <table class="table table-hover" id = "subscriptionTable">
   <thead>
     <tr>
       <th scope="col">#</th>
       <th scope="col">Name</th>
       <th scope="col">Date</th>
+      <th scope="col">Frequency</th>
       <th scope="col">Subscribers</th>
       <th scope="col"></th>
-
     </tr>
   </thead>
   <tbody id = "subscriptionTableBody">
@@ -72,6 +87,8 @@
     </tr>
   </tbody>
 </table>
+<div class="alert alert-warning" role="alert" id = "message-subscription">
+</div>
 </section>
 <?php
    include_once 'footer.php';

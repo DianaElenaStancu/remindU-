@@ -10,6 +10,7 @@
     while($row_subscriptions = mysqli_fetch_assoc($result_subscriptions)){
       $subscription['name'] = $row_subscriptions['name'];
       $subscription['date'] = $row_subscriptions['date'];
+      $subscription['frequency'] = $row_subscriptions['frequency'];
       $subscription['id'] = $row_subscriptions['id'];
       $id = $subscription['id'];
       $select_subcribers = "SELECT * FROM subscribers WHERE subscription_id = $id";

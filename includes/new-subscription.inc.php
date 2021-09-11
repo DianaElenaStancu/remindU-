@@ -7,6 +7,9 @@
     $user_id =  $_SESSION['userid'];
     $subscription = $_POST["subscription"];
     $date = $_POST["date"];
+    $billing_frequency = $_POST['billing_frequency'];
+
+
     if(isset($_POST['friendName']) && isset($_POST['friendEmail'])){
       $friendName = $_POST['friendName'];
       $friendEmail = $_POST['friendEmail'];
@@ -15,6 +18,10 @@
     else
       $subscribers = false;
 
+    if($billing_frequency === "Default"){
+      echo "<p class=\"alert alert-danger\" role=\"alert\">Choose you billing frequency!</p>";
+      exit();
+    }
 
     if(empty($subscription) || empty($date)) {
       echo "<p class=\"alert alert-danger\" role=\"alert\">Fill in all the fields!</p>";
@@ -46,11 +53,11 @@
     $stmt = mysqli_stmt_init($conn);
 
 
-    if(!createSubscription($stmt, $conn, $user_id, $subscription, $date))
+    if(!createSubscription($stmt, $conn, $user_id, $subscription, $date, $billing_frequency))
       $error = true;
 
     $subscription_id = getSubscriptionId($stmt);
-    
+
     if($subscribers){
       for($id = 0; $id < count($friendName); $id++)
       {

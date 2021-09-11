@@ -60,12 +60,12 @@ function loginUser($conn, $username, $pwd) {
         echo "<p class=\"alert alert-success\" role=\"alert\">Logged in successfully!</p>";
     }
 }
-function createSubscription($stmt, $conn, $user_id, $subscription_name, $date) {
-    $sql = "INSERT INTO subscriptions (user_id, name, date) VALUES (?, ?, ?);";
+function createSubscription($stmt, $conn, $user_id, $subscription_name, $date, $billing_frequency) {
+    $sql = "INSERT INTO subscriptions (user_id, name, date, frequency) VALUES (?, ?, ?, ?);";
     if (!mysqli_stmt_prepare($stmt, $sql)) {
         return false;
     }
-    mysqli_stmt_bind_param($stmt, "sss", $user_id, $subscription_name, $date);
+    mysqli_stmt_bind_param($stmt, "ssss", $user_id, $subscription_name, $date, $billing_frequency);
     mysqli_stmt_execute($stmt);
     return true;
 }
@@ -100,4 +100,14 @@ function emptyInputNewSubscription($subscription, $date, $friendName, $friendEma
         $result = true;
     }
     return $result;
+}
+
+function deleteSubscription($user_id, $subscription_id, $conn){
+  $deleteSubscription = "DELETE from subscriptions WHERE user_id = $user_id and id = $subscription_id;";
+  $deleteSubscribers = "DELETE from subscribers WHERE subscription_id = $subscription_id;";
+  if ($conn->query($deleteSubscription) === TRUE && $conn->query($deleteSubscribers)) {
+  echo "Record deleted successfully";
+ } else {
+  echo "Error deleting record: " . $conn->error;
+ }
 }

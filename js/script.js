@@ -54,18 +54,20 @@ function loadSubscriptions(){
         result = $.parseJSON(result);
         //console.log(result);
         if(result === "There are no subscriptions yet &#9785;."){
-          document.getElementById('subscriptionTable').innerHTML = result;
+          document.getElementById('message-subscription').innerHTML = result;
         }
         else {
+          document.getElementById('message-subscription').innerHTML = "";
+          document.getElementById('message-subscription').classList.remove("alert");
           $.each(result, function(index, element){
-            //console.log(element.name);
             buttonDropDown = "<a class='btn btn-secondary dropdown-toggle' href='#' role='button' id='dropdownMenuLink' data-bs-toggle='dropdown' aria-expanded='false'>View</a>"
             buttonEdit = "<button type='button' class='btn btn-secondary' id = 'editSubscription'>Edit</button>"
             buttonRemove = "<button type='button' class='btn btn-danger' id = 'removeSubscription'>Remove</button>"
-            tableRow = "<tr>";
+            tableRow = "<tr id="+ element.id + ">";
             tableRow +=  "<th>" + $('#subscriptionTableBody tr').length + "</th>" +
-            "<td>" + element.name + "</td>" +
-            "<td>" + element.date + "</td>" ;
+            "<td id = 'name'>" + element.name + "</td>" +
+            "<td id = 'date'>" + element.date + "</td>" +
+            "<td id= 'frequency'>" + element.frequency + "</td>";
             if(element.subscribers.length > 0){
               tableRow += "<td><div class='dropdown'>" + buttonDropDown + "<ul class='dropdown-menu' aria-labelledby='dropdownMenuLink'>";
               for(let i = 0; i < element.subscribers.length; i++){
@@ -79,12 +81,9 @@ function loadSubscriptions(){
             }
             tableRow += "<td>" + buttonEdit  + buttonRemove + "</td>" + "</tr>";
             $('#subscriptionTableBody tr:last').after(tableRow);
-
           });
         }
       });
-
-
 }
 
 function newSubscription() {
@@ -95,21 +94,21 @@ function newSubscription() {
       var date = $("#date").val();
       var friendName = [];
       var friendEmail = [];
+      var billing_frequency = $("#billing_frequency").val();
       $("input").each(function(index, elem){
         if(this.name == "FriendName[]")
           friendName.push(elem.value);
         else if(this.name == "FriendEmail[]")
           friendEmail.push(elem.value);
       });
-      console.log(friendEmail);
-      console.log(friendName);
       var resultDropdown = $("div").siblings(".form-message");
 
       $.post("includes/new-subscription.inc.php", {
           subscription: subscription,
           date: date,
           friendName: friendName,
-          friendEmail: friendEmail
+          friendEmail: friendEmail,
+          billing_frequency: billing_frequency
       }).done(function(data) {
         if (data === "<p class=\"alert alert-success\" role=\"alert\">Subscription added successfully!</p>")
             $('#newSubForm').each(function() {
@@ -117,7 +116,8 @@ function newSubscription() {
                 $(".input-group").html("");
             });
         resultDropdown.html(data);
-        $("#subscriptionTableBody tr").empty();
+        $("#subscriptionTableBody tr").remove();
+        $('#subscriptionTableBody').append('<tr></tr>');
         loadSubscriptions();
       });
     });
@@ -127,7 +127,25 @@ function newSubscription() {
       $(".input-group").html("");
     });
 }
+function removeSubscription(){
+  $(document).on("click", "#removeSubscription", function(){
+      var subscription_id = $(this).parents('tr').attr('id');;//.children(':nth-child(2)').text();
+      console.log(subscription_id);
+      $(this).parents('tr').remove();
+      $.post("includes/delete-subscription.inc.php", {subscription_id : subscription_id}, function(data) {
+        $("#message-subscription").html(data);
+      });
+    });
+    $(document).on("click", "#removeAllSubscription", function(){
+        //$(this).parents('tr').remove();
+        $("#subscriptionTableBody tr").remove();
+        $('#subscriptionTableBody').append('<tr></tr>');
+        $.post("includes/delete-allsubscription.inc.php", {}, function(data) {
+          $("#message-subscription").html(data);
+        });
+      });
 
+}
 function modalAddFriends() {
     console.log("planner page");
     $("#addFriendsCheckbox").click(function() {
